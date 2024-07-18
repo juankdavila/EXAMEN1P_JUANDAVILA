@@ -1,0 +1,6 @@
+@EXAMEN1P_JUANDAVILA_HostAddress = http://localhost:5251
+
+GET {{EXAMEN1P_JUANDAVILA_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
