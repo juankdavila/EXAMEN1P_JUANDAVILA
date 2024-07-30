@@ -57,7 +57,8 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             cmd.Parameters.AddWithValue("@PV_DIRECCION", objFutbolista.direccion);
             cmd.Parameters.AddWithValue("@PV_MAIL", objFutbolista.mail);
             cmd.Parameters.AddWithValue("@PD_FECHA_NACIMIENTO", objFutbolista.fecha_nacimiento);
-            
+            cmd.Parameters.AddWithValue("@PV_ESTADO", objFutbolista.estado);
+
             cmd.ExecuteNonQuery();
         }
 
@@ -67,8 +68,8 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             cmd.Connection = abrirConexion();
             cmd.CommandText = "SP_UPD_FUTBOLISTA";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PI_FUTBOLISTA", id_futbolista);
-            cmd.Parameters.AddWithValue("@PV_NOMBRES", objFutbolista.nombre);
+            cmd.Parameters.AddWithValue("@PI_ID_FUTBOLISTA", id_futbolista);
+            cmd.Parameters.AddWithValue("@PV_NOMBRE", objFutbolista.nombre);
             cmd.Parameters.AddWithValue("@PV_APELLIDOS", objFutbolista.apellidos);
             cmd.Parameters.AddWithValue("@PV_EDAD", objFutbolista.edad);
             cmd.Parameters.AddWithValue("@PV_DIRECCION", objFutbolista.direccion);
@@ -123,9 +124,9 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = abrirConexion();
-            cmd.CommandText = "SP_GET_EQUIPOS";
+            cmd.CommandText = "SP_GET_EQUIPO";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PV_ID_EQUIPO", id_equipo);
+            cmd.Parameters.AddWithValue("@PI_ID_EQUIPO", id_equipo);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet dataSet = new DataSet();
             adapter.Fill(dataSet);
@@ -139,7 +140,7 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             cmd.CommandText = "SP_INS_EQUIPOS";
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.Parameters.AddWithValue("@PI_ID_EQUIPO", objEquipo.id_equipo);
-            cmd.Parameters.AddWithValue("@PV_NOMBRE", objEquipo.nombre);
+            cmd.Parameters.AddWithValue("@PV_NOMBRE_EQUIPO", objEquipo.nombre_equipo);
             cmd.Parameters.AddWithValue("@PV_DESCRIPCION", objEquipo.descripcion);
             cmd.Parameters.AddWithValue("@PV_UBICACION", objEquipo.ubicacion);
             cmd.Parameters.AddWithValue("@PV_OBJETIVO", objEquipo.objetivo);
@@ -155,12 +156,13 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             cmd.Connection = abrirConexion();
             cmd.CommandText = "SP_UPD_EQUIPOS";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PI_ID_EQUIPOS", id_equipo);
-            cmd.Parameters.AddWithValue("@PV_NOMBRE", objEquipo.nombre);
+            cmd.Parameters.AddWithValue("@PI_ID_EQUIPO", id_equipo);
+            cmd.Parameters.AddWithValue("@PV_NOMBRE_EQUIPO", objEquipo.nombre_equipo);
             cmd.Parameters.AddWithValue("@PV_DESCRIPCION", objEquipo.descripcion);
             cmd.Parameters.AddWithValue("@PV_UBICACION", objEquipo.ubicacion);
             cmd.Parameters.AddWithValue("@PV_OBJETIVO", objEquipo.objetivo);
             cmd.Parameters.AddWithValue("@PV_CONTACTO", objEquipo.contacto);
+            cmd.Parameters.AddWithValue("@PV_ESTADO", objEquipo.estado);
             cmd.ExecuteNonQuery();
         }
 
@@ -170,7 +172,8 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             cmd.Connection = abrirConexion();
             cmd.CommandText = "SP_DEL_EQUIPOS";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PV_ID_EQUIPO", id_equipo);
+            cmd.Parameters.AddWithValue("@PI_ID_EQUIPO", id_equipo);
+            
             cmd.ExecuteNonQuery();
         }
 
@@ -181,8 +184,8 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             foreach (DataRow dr in dataTable.Rows)
             {
                 objeto = new Equipo();
-                objeto.id_equipo = Convert.ToInt32(dr["ID_PRODUCTO"].ToString());
-                objeto.nombre = dr["CODIGO"].ToString();
+                objeto.id_equipo = Convert.ToInt32(dr["ID_EQUIPO"].ToString());
+                objeto.nombre_equipo = dr["NOMBRE_EQUIPO"].ToString();
                 objeto.descripcion = dr["DESCRIPCION"].ToString();
                 objeto.ubicacion = dr["UBICACION"].ToString();
                 objeto.objetivo = dr["OBJETIVO"].ToString();
@@ -191,20 +194,22 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             }
             return lRespuesta;
         }
+
+       
         public static List<HistoricoEquipos> GetHistorico_Equipos(int id_futbolista)
         {
             SqlCommand cmd = new SqlCommand();
             cmd.Connection = abrirConexion();
-            cmd.CommandText = "SP_GET_HISTORICOEQUIPO";
+            cmd.CommandText = "SP_GET_HISTORICO_EQUIPOS";
             cmd.CommandType = CommandType.StoredProcedure;
-            cmd.Parameters.AddWithValue("@PV_ID_FUTBOLISTA", id_futbolista);
+            cmd.Parameters.AddWithValue("@PI_ID_FUTBOLISTA", id_futbolista);
             SqlDataAdapter adapter = new SqlDataAdapter(cmd);
             DataSet dataSet = new DataSet();
             adapter.Fill(dataSet);
             return llenarHistorico_Equipos(dataSet.Tables[0]);
         }
 
-        
+
 
         private static List<HistoricoEquipos> llenarHistorico_Equipos(DataTable dataTable)
         {
@@ -212,20 +217,20 @@ namespace EXAMEN1P_JUANDAVILA.COMUNES
             HistoricoEquipos objeto = new HistoricoEquipos();
             foreach (DataRow dr in dataTable.Rows)
             {
+
                 objeto = new HistoricoEquipos();
-                objeto.id = Convert.ToInt32(dr["ID"].ToString());
-                objeto.id_futbolista = Convert.ToInt32(dr["ID_FUTBOLISTA"].ToString());
-                objeto.id_equipo = Convert.ToInt32(dr["ID_EQUIPO"].ToString());
-                objeto.fecha_inicio = Convert.ToDateTime(dr["nombre"].ToString());
-                objeto.fecha_fin = Convert.ToDateTime(dr["nombre"].ToString());
+                objeto.nombrefutbolista = dr["NOMBREFUTBOLISTA"].ToString();
+                objeto.apellidosfutbolista = dr["APELLIDOSFUTBOLISTA"].ToString();
+                objeto.nombre_equipo = dr["NOMBRE_EQUIPO"].ToString();
+                objeto.fecha_inicio = Convert.ToDateTime(dr["FECHA_INICIO"].ToString());
+                objeto.fecha_fin = Convert.ToDateTime(dr["FECHA_FIN"].ToString());
+             
                 lRespuesta.Add(objeto);
             }
             return lRespuesta;
         }
 
-        internal static List<Futbolista> GetFubolista()
-        {
-            throw new NotImplementedException();
-        }
+
     }
+    
 }

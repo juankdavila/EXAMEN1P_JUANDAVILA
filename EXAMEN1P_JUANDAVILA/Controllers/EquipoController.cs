@@ -8,37 +8,37 @@ namespace EXAMEN1P_JUANDAVILA.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class EquipoController : ControllerBase
+    public class EquiposController : ControllerBase
     {
-        // GET: api/<ClientesController>
+        // GET: api/<EquiposController>
         [HttpGet]
         public List<Equipo> Get()
         {
             return ConexionBD.GetEquipos();
         }
 
-        // GET api/<EquipoController>/5
-        [HttpGet("{cedula}")]
+        // GET api/<EquiposController>/5
+        [HttpGet("{id_equipo}")]
         public Equipo Get(int id_equipo)
         {
             return ConexionBD.GetEquipo(id_equipo);
         }
 
-        // POST api/<EquipoController>
+        // POST api/<EquiposController>
         [HttpPost]
         public void Post([FromBody] Equipo objEquipo)
         {
             ConexionBD.PostEquipo(objEquipo);
         }
 
-        // PUT api/<EquipoController>/5
+        // PUT api/<EquiposController>/5
         [HttpPut("{id_equipo}")]
         public void Put(int id_equipo, [FromBody] Equipo objequipo)
         {
             ConexionBD.PutEquipo(id_equipo, objequipo);
         }
 
-        // DELETE api/<EquipoController>/5
+        // DELETE api/<EquiposController>/5
         [HttpDelete("{id_equipo}")]
         public void Delete(int id_equipo)
         {

@@ -8,13 +8,13 @@ namespace EXAMEN1P_JUANDAVILA.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class FutbolistaController : ControllerBase
+    public class FutbolistasController : ControllerBase
     {
         // GET: api/<FutbolistaController>
         [HttpGet]
         public List<Futbolista> Get()
         {
-            return ConexionBD.GetFubolista();
+            return ConexionBD.GetFutbolista();
         }
 
         //// GET api/<FutbolistaController>/5
@@ -24,24 +24,24 @@ namespace EXAMEN1P_JUANDAVILA.Controllers
         //    return ConexionBD.GetFutbolistas(id_futbolista);
         //}
 
-        [HttpGet("Futbolista/{id_futbolista}/Historico")]
-        public List<HistoricoEquipos> GetHistorico_Equipos(int id_futbolista)
+        [HttpGet("{id_futbolistaHistorial}")]
+        public List<HistoricoEquipos> GetHistoricoEquipos(int id_futbolistaHistorial)
         {
-            return ConexionBD.GetHistorico_Equipos(id_futbolista);
+            return ConexionBD.GetHistorico_Equipos(id_futbolistaHistorial);
         }
 
-        // POST api/<EController>
+        // POST api/<FutbolistaController>
         [HttpPost]
-        public void Post([FromBody] Futbolista objfutbolista)
+        public void Post([FromBody] Futbolista objFutbolista)
         {
-            ConexionBD.PostFutbolista(objfutbolista);
+            ConexionBD.PostFutbolista(objFutbolista);
         }
 
         // PUT api/<FutbolistaController>/5
         [HttpPut("{id_futbolista}")]
-        public void Put(int id_futbolista, [FromBody] Futbolista objfutbolista)
+        public void Put(int id_futbolista, [FromBody] Futbolista objFutbolista)
         {
-            ConexionBD.PutFutbolista(id_futbolista, objfutbolista);
+            ConexionBD.PutFutbolista(id_futbolista, objFutbolista);
         }
 
         // DELETE api/<FutbolistaController>/5
